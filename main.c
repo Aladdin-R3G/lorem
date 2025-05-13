@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 #include<unistd.h>
 
 #define CHAR_S 1
@@ -8,10 +9,14 @@
 #define ERR_L "invalid flag or input\n"
 #define ERR_S 22
 
+//custem type for lorem objects since i need both pointer to lorem and the size to output it
+
 typedef struct {
 	char *l;
 	int s;
 } lorem;
+
+// this function turn the user size input from char to int
 
 int getSizeOfLore(char *c){
 	int s = 0;
@@ -29,6 +34,26 @@ int getSizeOfLore(char *c){
 	}
 	return s;
 }
+
+// this function fills the allocated memory with lorem
+
+void fillWithLore(char *p,int s,char *lore){
+	int itr = 0;
+	char *ptr = p;
+	char *ptr2 = lore;
+	for(int i = 0; i < s;i++){
+		memcpy(ptr++,ptr2++,1);
+		itr++;
+		if(itr == PAR_S){
+			itr = 0;
+			ptr2 = lore;
+		}
+	}
+
+
+}
+
+//i made this function just for the sake of keeping the main function simple
 
 lorem makeLore(int c,char *a[]){
 
@@ -66,12 +91,29 @@ lorem makeLore(int c,char *a[]){
 		}
 	}
 	if(c == 3){
-		if(a[1][1] != '-') {
+		if(a[1][0] != '-') {
 			L.l = ERR_L;
 			L.s = ERR_S;
 			return L;
 		}else{
-			// to do 
+			switch(a[1][1]){
+				case 'c':
+					L.s = getSizeOfLore(a[2]);
+					L.l = malloc(L.s);
+					fillWithLore(L.l,L.s,lore);
+					return L;
+				case 'l':
+					L.s = getSizeOfLore(a[2]) * LINE_S;
+					L.l = malloc(L.s);
+					fillWithLore(L.l,L.s,lore);
+					return L;
+				case 'p':
+					L.s = getSizeOfLore(a[2]) * PAR_S;
+					L.l = malloc(L.s); // definition of memory inefficiency here lol
+					fillWithLore(L.l,L.s,lore); // hey i made it to work not to be memory efficiant 
+					return L;	
+
+			} 
 		}		
 	}
 	
