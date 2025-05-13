@@ -8,6 +8,8 @@
 #define PAR_S 445
 #define ERR_L "invalid flag or input\n"
 #define ERR_S 22
+#define HELP_S 240
+
 
 //custem type for lorem objects since i need both pointer to lorem and the size to output it
 
@@ -57,7 +59,8 @@ void fillWithLore(char *p,int s,char *lore){
 
 lorem makeLore(int c,char *a[]){
 
-	char *lore = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+	char *help = "        lorem -[c|l|p|h] *count*\r\n\r\n	examples :\r\n\r\n	Lorem -- outputs 1 paragraph of text, equivalent to Lorem -p or Lorem -p 1\r\n	Lorem -c 300 -- outputs 300 characters\r\n	Lorem -l outputs one line\r\n	Lorem -h outputs this help message\r\n";
+	char *lore = "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 	lorem L;
 
 	if(c == 1) {
@@ -83,6 +86,10 @@ lorem makeLore(int c,char *a[]){
 				case 'p':
 					L.l = lore;
 					L.s = PAR_S;
+					return L;
+				case 'h':
+					L.l = help;
+					L.s = HELP_S;
 					return L;
 			}
 			L.l = ERR_L;
@@ -111,6 +118,10 @@ lorem makeLore(int c,char *a[]){
 					L.s = getSizeOfLore(a[2]) * PAR_S;
 					L.l = malloc(L.s); // definition of memory inefficiency here lol
 					fillWithLore(L.l,L.s,lore); // hey i made it to work not to be memory efficiant 
+					return L;
+				case 'h':
+					L.l = help;
+					L.s = HELP_S;
 					return L;	
 
 			} 
